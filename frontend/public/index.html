@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>Online Auction Master</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+    <header class="main-header">
+        <h1>Online Auction Master</h1>
+        <div class="auction-status">
+            <span class="live-indicator"></span>
+            <span>Live Auctions</span>
+        </div>
+    </header>
+
+    <div class="security-status">
+        <div class="security-meter">
+            <div class="progress-bar">
+                <div class="progress-fill" id="securityProgress"></div>
+            </div>
+            <span class="security-text" id="securityText">Security Status</span>
+        </div>
+        <ul class="security-checks" id="securityChecks">
+            <li data-check="cvc">✓ CVC Verified</li>
+            <li data-check="expiry">✓ Valid Expiration</li>
+            <li data-check="cardType">✓ Card Type Match</li>
+            <li data-check="name">✓ Name Provided</li>
+        </ul>
+    </div>
+
+    <div class="card-preview" id="cardPreview">
+        <div class="card-front">
+            <div class="card-logo"></div>
+            <div class="card-number">#### #### #### ####</div>
+            <div class="card-details">
+                <span class="cardholder-name">FULL NAME</span>
+                <span class="exp-date">MM/YY</span>
+            </div>
+        </div>
+        <div class="card-back">
+            <div class="cvc-display">•••</div>
+        </div>
+    </div>
+
+    <style>
+        .main-header {
+            background: #1a237e;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .main-header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .auction-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .live-indicator {
+            width: 12px;
+            height: 12px;
+            background: #00e676;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0,230,118,0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0,230,118,0); }
+            100% { box-shadow: 0 0 0 0 rgba(0,230,118,0); }
+        }
+
+        .security-status {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .security-meter {
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #4CAF50;
+            transition: width 0.3s ease;
+        }
+
+        .security-text {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .security-checks {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .security-checks li {
+            padding: 0.5rem;
+            margin: 0.3rem 0;
+            border-radius: 5px;
+            background: rgba(0,0,0,0.1);
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .security-checks li[data-active="true"] {
+            opacity: 1;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .security-checks li::before {
+            content: '✗';
+            margin-right: 0.5rem;
+            color: #f44336;
+        }
+
+        .security-checks li[data-active="true"]::before {
+            content: '✓';
+            color: #4CAF50;
+        }
+
+        /* Card Preview Styles */
+        .card-preview {
+            width: 320px;
+            height: 200px;
+            border-radius: 15px;
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+            padding: 1.5rem;
+            margin: 1rem auto;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .card-preview.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(45deg, #f44336, #d32f2f);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-number {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .card-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+        .cvc-display {
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            background: white;
+            color: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .card-logo {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 60px;
+            height: 40px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+    </style>
+
+    <script>
+        // Security Verification System
+        const securityChecks = {
+            cvc: false,
+            expiry: false,
+            cardType: false,
+            name: false
+        };
+
+        function updateSecurityStatus() {
+            const totalChecks = Object.keys(securityChecks).length;
+            const passedChecks = Object.values(securityChecks).filter(Boolean).length;
+            const progress = (passedChecks / totalChecks) * 100;
+            
+            // Update progress bar
+            document.getElementById('securityProgress').style.width = `${progress}%`;
+            
+            // Update status text
+            const statusText = document.getElementById('securityText');
+            statusText.textContent = 
+                progress < 25 ? 'Weak Security' :
+                progress < 50 ? 'Basic Security' :
+                progress < 75 ? 'Good Security' : 'Excellent Security';
+            
+            // Update check list
+            Object.entries(securityChecks).forEach(([key, value]) => {
+                const checkItem = document.querySelector(`[data-check="${key}"]`);
+                checkItem.setAttribute('data-active', value);
+            });
+        }
+
+        // Check CVC
+        document.getElementById('cvc').addEventListener('input', (e) => {
+            securityChecks.cvc = e.target.value.length >= 3;
+            updateSecurityStatus();
+        });
+
+        // Check Expiration Date
+        document.getElementById('expDate').addEventListener('input', (e) => {
+            const [month, year] = e.target.value.split('/');
+            const currentYear = new Date().getFullYear() % 100;
+            const currentMonth = new Date().getMonth() + 1;
+            
+            securityChecks.expiry = (
+                month >= 1 && month <= 12 &&
+                year >= currentYear &&
+                !(year == currentYear && month < currentMonth)
+            );
+            updateSecurityStatus();
+        });
+
+        // Check Card Type Match
+        let detectedCardType = '';
+        document.getElementById('cardNumber').addEventListener('input', (e) => {
+            const number = e.target.value.replace(/\D/g, '');
+            securityChecks.cardType = detectedCardType === getCardType(number);
+            updateSecurityStatus();
+        });
+
+        // Check Name Provided
+        document.getElementById('cardName').addEventListener('input', (e) => {
+            securityChecks.name = e.target.value.trim().length > 0;
+            updateSecurityStatus();
+        });
+
+        function getCardType(number) {
+            if (/^4/.test(number)) return 'visa';
+            if (/^5[1-5]/.test(number)) return 'mastercard';
+            if (/^3[47]/.test(number)) return 'amex';
+            return 'unknown';
+        }
+
+        // Real-time Card Preview
+        const cardPreview = document.getElementById('cardPreview');
+        const cardNumberDisplay = document.querySelector('.card-number');
+        const cardNameDisplay = document.querySelector('.cardholder-name');
+        const expDateDisplay = document.querySelector('.exp-date');
+        const cvcDisplay = document.querySelector('.cvc-display');
+        const cardLogo = document.querySelector('.card-logo');
+
+        // Card Number Input
+        document.getElementById('cardNumber').addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.match(/.{1,4}/g)?.join(' ') || '';
+            cardNumberDisplay.textContent = value.padEnd(19, '#').replace(/(.{4})/g, '$1 ');
+            detectCardType(e.target.value);
+        });
+
+        // Cardholder Name Input
+        document.getElementById('cardName').addEventListener('input', (e) => {
+            cardNameDisplay.textContent = e.target.value.toUpperCase() || 'FULL NAME';
+        });
+
+        // Expiration Date Input
+        document.getElementById('expDate').addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.match(/.{1,2}/g)?.join('/') || '';
+            expDateDisplay.textContent = value.padEnd(5, 'M/Y');
+        });
+
+        // CVC Input
+        document.getElementById('cvc').addEventListener('input', (e) => {
+            cvcDisplay.textContent = e.target.value.replace(/\D/g, '').padEnd(3, '•');
+        });
+
+        // Card Flip on CVC Focus
+        document.getElementById('cvc').addEventListener('focus', () => {
+            cardPreview.classList.add('flipped');
+        });
+
+        document.getElementById('cvc').addEventListener('blur', () => {
+            cardPreview.classList.remove('flipped');
+        });
+
+        // Card Type Detection
+        function detectCardType(number) {
+            const cardTypes = {
+                visa: /^4/,
+                mastercard: /^5[1-5]/,
+                amex: /^3[47]/,
+                discover: /^6(?:011|5)/
+            };
+
+            for (const [type, pattern] of Object.entries(cardTypes)) {
+                if (pattern.test(number)) {
+                    cardLogo.style.backgroundImage = `url(${type}.png)`;
+                    return;
+                }
+            }
+            cardLogo.style.backgroundImage = '';
+        }
+    </script>
+  </body>
+</html>

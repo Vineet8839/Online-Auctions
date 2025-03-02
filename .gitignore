@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Nested git repositories
+Auction-Master/
+Online-Auctions/
+
+# Build files
+build/
+dist/
+**/build/
+**/dist/
+
+# Cache
+.cache/
+**/.cache/
+**/*.pack
+**/*.pack.old
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+**/.env*
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+**/debug.log
+
+# IDE
+.idea/
+.vscode/
+*.sublime-*
+
+# OS
+.DS_Store
+Thumbs.db

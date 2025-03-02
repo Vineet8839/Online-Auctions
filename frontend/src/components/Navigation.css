@@ -1,0 +1,41 @@
+.circle-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.circle-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 30px;
+    padding: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.circle {
+    display: flex;
+    gap: 20px;
+    padding: 5px 15px;
+}
+
+.circle-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #666;
+    padding: 8px 12px;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.circle-item:hover {
+    background: rgba(74, 175, 80, 0.1);
+    transform: translateY(-2px);
+}
+
+.circle-item.active {
+    color: #4CAF50;
+    background: rgba(74, 175, 80, 0.1);
+} 
