@@ -2,14 +2,22 @@
     padding: 20px;
     max-width: 800px;
     margin: 0 auto;
+    min-height: 100vh;
+    background-color: #f8f9fa;
 }
 
 .payment-method-card {
-    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+    border: none;
     padding: 15px;
     margin: 10px 0;
     border-radius: 8px;
     position: relative;
+}
+
+.payment-method-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .default-badge {
@@ -35,6 +43,13 @@
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    transition: border-color 0.2s ease;
+}
+
+.payment-form input:focus,
+.payment-form select:focus {
+    border-color: #2196f3;
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
 }
 
 .payment-processor {
@@ -62,16 +77,55 @@
 .pay-button {
     width: 100%;
     padding: 12px;
-    background: #4CAF50;
+    background: linear-gradient(45deg, #1976d2, #2196f3);
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
     margin-top: 20px;
+    transition: all 0.3s ease;
+}
+
+.pay-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
 }
 
 .pay-button:disabled {
     background: #cccccc;
     cursor: not-allowed;
-} 
+}
+
+.action-buttons {
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.payment-method-card:hover .action-buttons {
+    opacity: 1;
+}
+
+.default-chip {
+    background: linear-gradient(45deg, #4caf50, #66bb6a);
+    color: white;
+    font-weight: 500;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.delete-button:hover {
+    background-color: rgba(244, 67, 54, 0.1);
+}
+
+.edit-button:hover {
+    background-color: rgba(33, 150, 243, 0.1);
+}
